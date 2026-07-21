@@ -1,4 +1,50 @@
 # ==================================================
+# STAGE 15: DETECT USER INTENT
+# ==================================================
+
+def detect_intent(question):
+
+    q = question.lower()
+
+    if any(word in q for word in [
+        "avoid",
+        "not eat",
+        "forbidden",
+        "limit",
+        "restriction"
+    ]):
+        return "foods_to_avoid"
+
+    elif any(word in q for word in [
+        "eat",
+        "recommended",
+        "food",
+        "diet",
+        "nutrition"
+    ]):
+        return "foods_to_eat"
+
+    elif any(word in q for word in [
+        "meal",
+        "meal plan",
+        "breakfast",
+        "lunch",
+        "dinner"
+    ]):
+        return "meal_plan"
+
+    elif any(word in q for word in [
+        "exercise",
+        "activity",
+        "lifestyle",
+        "habit"
+    ]):
+        return "lifestyle"
+
+    else:
+        return "general"
+
+# ==================================================
 # STAGE 15: PROMPT BUILDER (OPTIMIZED V5 - REALISTIC MEALS)
 # ==================================================
 
@@ -162,63 +208,47 @@ API_URL = "https://openrouter.ai/api/v1/chat/completions"
 # ==================================================
 # LLM Generation (OpenRouter)
 # ==================================================
-
 def generate_answer(
     prompt,
     model=MODEL_NAME,
     temperature=0.1,
     max_tokens=1200
 ):
-
     headers = {
-
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-
         "Content-Type": "application/json"
-
     }
 
+   
+    system_message = (
+        "You are an expert Clinical Dietitian. "
+        "Follow the user's instructions precisely and produce the requested structured report. "
+        "Do not deviate from the requested format, do not summarize, and do not skip any section."
+    )
+    # ==========================================
+
     payload = {
-
         "model": model,
-
         "messages": [
-
-            {
-                "role": "user",
-                "content": prompt
-            }
-
+            {"role": "system", "content": system_message},
+            {"role": "user", "content": prompt}
         ],
-
         "temperature": temperature,
-
         "max_tokens": max_tokens
-
     }
 
     start = time.time()
 
     try:
-
         response = requests.post(
-
             API_URL,
-
             headers=headers,
-
             json=payload,
-
             timeout=600
-
         )
-
         response.raise_for_status()
-
         elapsed = time.time() - start
-
         result = response.json()
-
         answer = result["choices"][0]["message"]["content"].strip()
 
         print("=" * 60)
@@ -228,9 +258,7 @@ def generate_answer(
         print(f"Inference Time : {elapsed:.2f} sec")
 
         usage = result.get("usage")
-
         if usage:
-
             print(f"Prompt Tokens     : {usage.get('prompt_tokens')}")
             print(f"Completion Tokens : {usage.get('completion_tokens')}")
             print(f"Total Tokens      : {usage.get('total_tokens')}")
@@ -238,14 +266,11 @@ def generate_answer(
         return answer
 
     except Exception as e:
-
         print("=" * 60)
         print("OPENROUTER ERROR")
         print("=" * 60)
         print(e)
-
         return None
-
 
 # ==================================================
 # GENERATE FINAL RAG ANSWER
