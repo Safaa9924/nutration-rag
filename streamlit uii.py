@@ -14,7 +14,6 @@ from dotenv import load_dotenv
 from query_builder import build_query
 from intent_detector import detect_intent
 from context_builder import build_context_package
-from retrieval_report import retrieval_quality_report  # لو موجود، وإلا استخدم الدالة المدمجة
 
 # استيراد دوال الاسترجاع والتوليد من ملفاتك
 # (افترض أن 06_retrieve_context.py يحتوي على retrieve_top_k_hybrid و rerank_candidates)
