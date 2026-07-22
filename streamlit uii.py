@@ -9,16 +9,8 @@ from io import StringIO
 # ==============================================
 # Load environment variables (if needed)
 # ==============================================
-load_dotenv()
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-MODEL_NAME = os.getenv("MODEL_NAME", "openai/gpt-4o-mini")  # fallback
-
-print("API KEY:", OPENROUTER_API_KEY)
-
-if OPENROUTER_API_KEY:
-    print("Starts with:", OPENROUTER_API_KEY[:10])
-else:
-    print("API Key NOT FOUND")
+OPENROUTER_API_KEY = st.secrets["OPENROUTER_API_KEY"]
+MODEL_NAME = st.secrets.get("MODEL_NAME", "openai/gpt-4o-mini")
 # ==============================================
 # Import core functions from your module
 # (Assumes 07_prompting.py is in the same directory)
