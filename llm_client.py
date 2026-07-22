@@ -15,7 +15,6 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 # model string can be typed in manually too — this list is just a
 # convenience shortlist, not an exhaustive/validated set.
 COMMON_MODELS = [
-    "anthropic/claude-3.5-sonnet",
     "openai/gpt-4o-mini",
     "openai/gpt-4o",
     "google/gemini-flash-1.5",
