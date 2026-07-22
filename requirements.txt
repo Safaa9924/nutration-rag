@@ -6,3 +6,5 @@ sentence-transformers>=2.7
 torch>=2.1
 requests>=2.31
 python-dotenv
+streamlit>=1.30
+rank-bm25
