@@ -150,11 +150,30 @@ with st.sidebar:
         "OpenRouter API key", type="password",
         help="Get one at https://openrouter.ai/keys — never hard-code this in source.",
     )
-    model_choice = st.selectbox("Model", COMMON_MODELS + ["Custom..."])
-    if model_choice == "Custom...":
-        model_choice = st.text_input("Custom OpenRouter model id", value="openai/gpt-4o-mini")
-    temperature = st.slider("Temperature", 0.0, 1.0, 0.2, step=0.05)
-    max_tokens = st.slider("Max answer tokens", 100, 2000, 800, step=100)
+   # ==================================================
+# LLM Settings
+# ==================================================
+
+# Fixed model (OpenRouter)
+model_choice = "openai/gpt-4o-mini"
+
+st.info(f"🤖 Model: {model_choice}")
+
+temperature = st.slider(
+    "Temperature",
+    0.0,
+    1.0,
+    0.2,
+    step=0.05
+)
+
+max_tokens = st.slider(
+    "Max answer tokens",
+    100,
+    2000,
+    800,
+    step=100
+)
 
 
 # ==================================================
